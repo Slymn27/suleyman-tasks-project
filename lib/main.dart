@@ -164,11 +164,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const Padding(
               padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 15.0),
-              child: TextField( //text field for the surename of the user
+              child: TextField( //text field for the surname of the user(typo)
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
-                  labelText: 'Surename',
+                  labelText: 'Surname', //(typo)
                 ),
                 keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
