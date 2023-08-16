@@ -1,14 +1,8 @@
-//süleyman Emre Kıskaç - Task 7
+//süleyman Emre Kıskaç - Task 7 - Task 9
 //used resources are mentioned at the bottom of the code
-
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-import 'classes.dart';
+
+import 'mainpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,11 +14,12 @@ class MyApp extends StatelessWidget { // using stateless widget for the base of 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 48, 128, 51)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Task7-Profile page'), //calling stateful widget
+      home: const MainPage(title: 'Main page'), //calling Main page 
     );
   }
 }

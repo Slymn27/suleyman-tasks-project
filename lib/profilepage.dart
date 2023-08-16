@@ -7,20 +7,22 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'widgets.dart';
+
 
 
 const List<String> list = <String>['Prefere not to say','Male','Female','Non-Binary',]; //list of the gender options
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   File? profilePicture; // Image variable
   DateTime dateofbirth = DateTime.now(); // dateofbirth variable
   bool veganOrNot = false;
@@ -261,24 +263,4 @@ class _MyHomePageState extends State<MyHomePage> {
       )),
     );
   }
-}
-
-
-Widget customButton({ //creating a custom button for profile picture section
-  required String titleOfbutton, //the widget takes a string for the title, an icon name for the icon -->
-  required IconData iconOfbutton,// --> and a funciton to do its stuff
-  required VoidCallback onClickFunction,
-}) {
-  return Container(//simple container for the button
-    width: 180,
-    child: ElevatedButton(
-        onPressed: onClickFunction,
-        child: Row(
-          children: [
-            Icon(iconOfbutton), //showing the icon that has been passed to the function
-            const SizedBox(width: 10),
-            Text(titleOfbutton),//writing the string that has been passeed to the function
-          ],
-        )),
-  );
 }
