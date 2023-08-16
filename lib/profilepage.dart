@@ -73,6 +73,23 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SingleChildScrollView( //making the page scrollable
         child: Column(
           children: [ 
+            Row(
+              children: [Align(alignment:Alignment.centerLeft,) ,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    alignment: Alignment.topRight,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }, 
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                    ),
+                    iconSize: 40,
+                  ),
+                ),
+              ],
+            ),
             Row(mainAxisAlignment: MainAxisAlignment.center, 
               children: [
                if (profilePicture != null)// if a picture is selected, show it
@@ -244,20 +261,23 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ]
             ),
-              Row( //switch option for student or not question.
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('I am a Student', style: TextStyle(fontSize: 20,fontWeight:FontWeight.bold),),
-                  Switch(
-                    value: studentOrNot, 
-                    activeColor: Colors.blue,
-                    onChanged: (bool value){
-                    setState(() { //changing the value if it is changed
-                      studentOrNot= value;
-                    });
-                  }),
-                ],
-          )
+              Padding(
+                padding: const EdgeInsets.only(bottom:8.0),
+                child: Row( //switch option for student or not question.
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('I am a Student', style: TextStyle(fontSize: 20,fontWeight:FontWeight.bold),),
+                    Switch(
+                      value: studentOrNot, 
+                      activeColor: Colors.blue,
+                      onChanged: (bool value){
+                      setState(() { //changing the value if it is changed
+                        studentOrNot= value;
+                      });
+                    }),
+                  ],
+                        ),
+              )
           ],
         ),
       )),
