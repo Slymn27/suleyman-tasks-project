@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
-class MainPage extends StatefulWidget {
+class MainPage extends StatefulWidget {//turned the mainpage into a stateful widget because the main screen will show the user data
   const MainPage({super.key, required this.title});
 
   final String title;
@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-FirebaseFirestore firestore = FirebaseFirestore.instance;
+FirebaseFirestore firestore = FirebaseFirestore.instance; //accesing the instance
 
 class _MainPageState extends State<MainPage> {
   @override
@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
             child: IconButton(
               iconSize: 42,
               onPressed: () {
-                Navigator.push(
+                Navigator.push(//navigating to profile page by clicking the person icon
                   context, 
                   MaterialPageRoute(builder: (context) => const ProfilePage(title: 'profile Page',)),
                 );
@@ -41,13 +41,13 @@ class _MainPageState extends State<MainPage> {
           )
         ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class
       ),
-      body: UserData(),
+      body: UserData(),// calling the method from a differen file. Writing the user data that we got from firestore
 
       
       bottomNavigationBar: BottomNavigationBar(//https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html bottom navigation bar
         backgroundColor: Color.fromARGB(255, 128, 218, 131),
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+          BottomNavigationBarItem( //creating a bottom navigation bar with 5 items
             icon: Icon(Icons.sell_outlined,
               size: 32, color: Color.fromARGB(255, 48, 128, 51),
             ),

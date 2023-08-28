@@ -3,19 +3,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:suleymankiskacproject/firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'mainpage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  await FirebaseAuth.instance.useAuthEmulator(
-    'localhost', 9099
-  );
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp(  // we initialize a new instance to be able to use firebase apps
+    options: DefaultFirebaseOptions.currentPlatform, // we set the options to default options
   );
   runApp(const MyApp());
 }

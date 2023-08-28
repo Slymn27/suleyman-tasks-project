@@ -398,7 +398,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           setState(() {
                             veganOrNot = value;
                             isVegan = veganOrNot;
-                                 //changing the value if it is changed
+                                 //changing the value if it is switched
                           });
                         }),
                   ),
