@@ -263,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 15.0),
               child: TextField(
                 // text field for the name of the user
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   labelText: "name",
@@ -275,24 +275,27 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 15.0),
               child: TextField(
                 //text field for the surename of the user
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   labelText: 'Surename',
                 ),
                 keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
+                onChanged: (String value) async{
+                  updateUserSurname(value);
+                },
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 15.0),
               child: TextField(
                 //text field for the users nicnname
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -301,6 +304,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
+                onChanged: (String value) async{
+                  updateUserNickname(value);
+                },
               ),
             ),
             const Divider(
