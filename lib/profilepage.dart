@@ -35,6 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
   DateTime dateofbirth = DateTime.now(); // dateofbirth variable
   bool veganOrNot = false;
   bool studentOrNot = false;
+  String j= "no";
+  String f= "no";
   String dropdownValue = list.first; // dropdown Menu values
   Future getProfilePicture(ImageSource sourcepath) async {
     //get method for getting the profile picture
@@ -400,12 +402,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Switch(
                         value: veganOrNot,
                         activeColor: Colors.green,
-                        onChanged: (bool value) {
+                        onChanged: (bool value) async {
                           setState(() {
                             veganOrNot = value;
                             isVegan = veganOrNot;
                                  //changing the value if it is switched
                           });
+                          updateUserVegan(value);
                         }),
                   ),
                 ]),
@@ -422,12 +425,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   Switch(
                       value: studentOrNot,
                       activeColor: Colors.blue,
-                      onChanged: (bool value) {
-                        
+                      onChanged: (bool value) async {
                         setState(() {
                           //changing the value if it is changed
-                          studentOrNot = value;
+                          //studentOrNot = value;
+                          isStudent = studentOrNot;
                         });
+                        updateUserStudent(value);//updating the user student status
                       }),
                 ],
               ),

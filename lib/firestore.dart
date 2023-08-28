@@ -5,8 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 CollectionReference collectionId = FirebaseFirestore.instance.collection("UserProfile");
 Stream collectionStream = FirebaseFirestore.instance.collection("UserProfile").snapshots();
 Stream documentStream = FirebaseFirestore.instance.collection("UserProfile").doc().snapshots();
-bool isUserVegan =false;
-
 class UserData extends StatefulWidget{
   @override
     _UserDataState createState() => _UserDataState();
@@ -21,11 +19,11 @@ class _UserDataState extends State<UserData>{
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return Text('Something went wrong');//if case of an error, printing 'someting went wrong' message
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Text("Loading");//while waiting for the data, printing 'loading' message
         }
 
         return ListView(
@@ -33,22 +31,52 @@ class _UserDataState extends State<UserData>{
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
             return Column(
               mainAxisAlignment: MainAxisAlignment.center, 
-              children: [ 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(data['userName']),
-                  Text(" "),
-                  Text(data['userSurname']),
+              children: [ //getting the name from the dataset
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text('Name: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(data['userName'],style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,),
+                    ),
+                ],
+              ),  //getting the name from the dataset
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text('Surname: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(data['userSurname'],style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,),
+                    ),
+                ],
+              ),//getting the name from the dataset
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text('userNickame: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(data['userNickname'],style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,),
+                    ),
+                ],
+              ),//getting the name from the dataset
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text('Gender: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(data['userGender'],style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,)),
+                ],
+              ),//getting the name from the dataset
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text("Vegan: ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(isUserVegan(data['userVegan']),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                 ],
               ),
-              Text(data['userNickname']),
-              Text(data['userVegan'].toString()),
-              Text(data['userStudent'].toString()),
-              Text(data['userDOB']),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text("Student: ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(isUserStudent(data['userStudent']),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                ],
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Text("Birth Day: ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text(data['userDOB'],style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,)),
+                ],
+              ),
               ],
             );
-          }).toList(),
+          }).toList(),//converting to list format
         );
       },
     );
@@ -57,10 +85,10 @@ class _UserDataState extends State<UserData>{
 
 Future<void> updateUserName(String newName) {
   return collectionId
-    .doc("JY77sv8HTXTkHay7RCt2")
-    .update({'userName': newName})
-    .then((value) => print("Name Updated"))
-    .catchError((error) => print("Failed to update name: $error"));
+    .doc("JY77sv8HTXTkHay7RCt2")// the document Id
+    .update({'userName': newName}) //updating the new name
+    .then((value) => print("Name Updated"))//printing to the log that it was updated
+    .catchError((error) => print("Failed to update name: $error"));//in case of error, printing the error message to the log
 }
 
 Future<void> updateUserSurname(String newSurname) {
@@ -86,6 +114,14 @@ Future<void> updateUserVegan(bool newVegan) {
     .catchError((error) => print("Failed to update vegan status: $error"));
 }
 
+Future<void> updateUserStudent(bool newStudent) {
+  return collectionId
+    .doc("JY77sv8HTXTkHay7RCt2")
+    .update({'userStudent': newStudent})
+    .then((value) => print("Student Status Updated"))
+    .catchError((error) => print("Failed to update student status: $error"));
+}
+
 String GetUserName(String currentUserName) {
   return FirebaseFirestore.instance.collection("UserProfile").doc("JY77sv8HTXTkHay7RCt2").get().toString();
     // ({'userName': currentUserName})
@@ -95,4 +131,28 @@ String GetUserName(String currentUserName) {
 
 //collectionId.doc("JY77sv8HTXTkHay7RCt2").get().toString();
 void getUserData(){
+}
+
+String yesnoanswer =""; //the variable for answering the vegan and student questions
+
+String isUserVegan(bool thedata){ //getting the vegan status from the dataset
+  if(thedata){
+    yesnoanswer ="yes";//if true, return yes
+    return yesnoanswer;
+  }
+  else{
+    yesnoanswer= "no";//if false, return no
+    return yesnoanswer;
+  }
+}
+
+String isUserStudent(bool thedata){//getting the student status from the dataset
+  if(thedata){
+    yesnoanswer ="yes";//if true, return yes
+    return yesnoanswer;
+  }
+  else{
+    yesnoanswer= "no";//if false, return no
+    return yesnoanswer;
+  }
 }
