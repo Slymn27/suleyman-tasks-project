@@ -6,13 +6,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'firestore.dart';
 
-
-bool isVegan= false;
-bool isStudent = false;
 
 const List<String> list = <String>[
   'Prefere not to say',
@@ -30,13 +28,15 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+bool isVegan= false;
+bool isStudent = false;
+
 class _ProfilePageState extends State<ProfilePage> {
   File? profilePicture; // Image variable
-  DateTime dateofbirth = DateTime.now(); // dateofbirth variable
+  DateTime dateofbirth = DateTime.now(); // dateofbirth variable;
+  DateTime? i;
   bool veganOrNot = false;
   bool studentOrNot = false;
-  String j= "no";
-  String f= "no";
   String dropdownValue = list.first; // dropdown Menu values
   Future getProfilePicture(ImageSource sourcepath) async {
     //get method for getting the profile picture
@@ -68,21 +68,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return File(imagePath).copy(
         image.path); // finding the image from its path and returning the it
-  }
-
-  Future<void> userDateOfBirth(BuildContext context) async {
-    //method for picking a date from the calender
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: dateofbirth,
-        firstDate: DateTime(1900), //start is 20th century
-        lastDate: DateTime(2100)); // end is 21th century
-    if (pickedDate != null && pickedDate != dateofbirth) {
-      //if the user picked a date, change the widget state
-      setState(() {
-        dateofbirth = pickedDate;
-      });
-    }
   }
 
   @override
@@ -280,11 +265,11 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 15.0),
               child: TextField(
-                //text field for the surename of the user
+                //text field for the surname of the user
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
-                  labelText: 'Surename',
+                  labelText: 'Surname',
                 ),
                 keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
@@ -324,8 +309,26 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 ElevatedButton(
                   //creating a button that opens the calender
-                  onPressed: () => userDateOfBirth(
-                      context), //calling the method for changing the date
+                  onPressed: () async{ 
+                    DateTime? newDate = await showDatePicker(
+                      context: context,
+                      initialDate: dateofbirth,
+                      firstDate: DateTime(1900), //start is 20th century
+                      lastDate: DateTime(2100), 
+                    );
+
+
+                    if(newDate == null) return;
+
+                    setState(() {
+                      dateofbirth = newDate;
+                      i= newDate;
+                      updateUserDOB(i.toString());
+                    });
+
+                    // userDateOfBirth(context);
+                    updateUserDOB(dateofbirth.toString());
+                  },
                   child: const Text(
                     'Select birth of date',
                     style: TextStyle(
@@ -337,8 +340,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: 10,
                 ),
                 Text(
-                  '${dateofbirth.toLocal()}'.split(
-                      ' ')[0], //saving the variable and writing it to the text
+                  '${dateofbirth.year}-${dateofbirth.month}-${dateofbirth.day}', //saving the variable and writing it to the text
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -369,6 +371,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     setState(() {
                       //chaning the gender on user selection
                       dropdownValue = value!;
+                      updateUserGender(value);
                     });
                   },
                   items: list.map<DropdownMenuItem<String>>((String value) {
@@ -428,7 +431,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onChanged: (bool value) async {
                         setState(() {
                           //changing the value if it is changed
-                          //studentOrNot = value;
+                          studentOrNot = value;
                           isStudent = studentOrNot;
                         });
                         updateUserStudent(value);//updating the user student status

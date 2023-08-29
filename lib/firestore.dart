@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 CollectionReference collectionId = FirebaseFirestore.instance.collection("UserProfile");
 Stream collectionStream = FirebaseFirestore.instance.collection("UserProfile").snapshots();
 Stream documentStream = FirebaseFirestore.instance.collection("UserProfile").doc().snapshots();
+
 class UserData extends StatefulWidget{
   @override
     _UserDataState createState() => _UserDataState();
@@ -45,7 +46,7 @@ class _UserDataState extends State<UserData>{
                 ],
               ),//getting the name from the dataset
               Row(mainAxisAlignment: MainAxisAlignment.center,
-                children: [const Text('userNickame: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                children: [const Text('Nickame: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                   Text(data['userNickname'],style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,),
                     ),
                 ],
@@ -54,7 +55,8 @@ class _UserDataState extends State<UserData>{
                 children: [const Text('Gender: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                   Text(data['userGender'],style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,)),
+                      fontSize: 22,)
+                    ),
                 ],
               ),//getting the name from the dataset
               Row(mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +71,7 @@ class _UserDataState extends State<UserData>{
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [const Text("Birth Day: ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
-                  Text(data['userDOB'],style: const TextStyle(
+                  Text((data['userDOB']),style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,)),
                 ],
@@ -106,6 +108,14 @@ Future<void> updateUserNickname(String newNickname) {
     .catchError((error) => print("Failed to update nickname: $error"));
 }
 
+Future<void> updateUserGender(String newGender) {
+  return collectionId
+    .doc("JY77sv8HTXTkHay7RCt2")
+    .update({'userGender': newGender})
+    .then((value) => print("Gender Updated"))
+    .catchError((error) => print("Failed to update gender: $error"));
+}
+
 Future<void> updateUserVegan(bool newVegan) {
   return collectionId
     .doc("JY77sv8HTXTkHay7RCt2")
@@ -122,16 +132,15 @@ Future<void> updateUserStudent(bool newStudent) {
     .catchError((error) => print("Failed to update student status: $error"));
 }
 
-String GetUserName(String currentUserName) {
-  return FirebaseFirestore.instance.collection("UserProfile").doc("JY77sv8HTXTkHay7RCt2").get().toString();
-    // ({'userName': currentUserName})
-    // .then((value) => print("Vegan Status Updated"))
-     // .catchError((error) => print("Failed to update vegan status: $error"));
+Future<void> updateUserDOB(String newDOB) {
+  List<String> splitted = newDOB.split(' ');//we split the time part and only use the date portion
+  return collectionId
+    .doc("JY77sv8HTXTkHay7RCt2")
+    .update({'userDOB': splitted[0]})//index 0 is the date part, index 1 is the time part, we select index 0 to print
+    .then((value) => print("Birth date Updated"))
+    .catchError((error) => print("Failed to Birth date: $error"));
 }
 
-//collectionId.doc("JY77sv8HTXTkHay7RCt2").get().toString();
-void getUserData(){
-}
 
 String yesnoanswer =""; //the variable for answering the vegan and student questions
 
@@ -156,3 +165,5 @@ String isUserStudent(bool thedata){//getting the student status from the dataset
     return yesnoanswer;
   }
 }
+
+// https://flutterassets.com/split-string-in-flutter-examples/ --> splitting string

@@ -1,4 +1,4 @@
-//süleyman Emre Kıskaç - Task 7 - Task 9
+//süleyman Emre Kıskaç - Task 7 - Task 9 - Task 10
 //used resources are mentioned at the bottom of the code
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
