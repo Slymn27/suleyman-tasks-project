@@ -20,7 +20,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(// app bar
         backgroundColor: const Color.fromARGB(255, 128, 218, 131),
         leading: const Placeholder(),
         title: const Placeholder(fallbackHeight: 40.0),
@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
               color: Color.fromARGB(255, 48, 128, 51),
             ),
           )
-        ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class
+        ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class 
       ),
       body: UserData(),// calling the method from a differen file. Writing the user data that we got from firestore
 
