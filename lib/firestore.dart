@@ -24,7 +24,7 @@ class _UserDataState extends State<UserData>{
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");//while waiting for the data, printing 'loading' message
+          return Text("Loading...", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22));//while waiting for the data, printing 'loading' message
         }
 
         return ListView(
