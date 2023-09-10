@@ -42,7 +42,7 @@ class _TestPageState extends State<TestPage> {
     final path = 'userImages/${camImage!.name}';
     final file = File(camImage!.path);
     final ref = FirebaseStorage.instance.ref().child(path);
-    final imageRef = ref.getDownloadURL();
+    //final imageRef = ref.getDownloadURL();
     
     ref.putFile(file);
   }
@@ -75,7 +75,7 @@ class _TestPageState extends State<TestPage> {
               child: Container(
                   color: Colors.blueAccent,
                   child: Image.file(
-                    File(camImage!.path!),
+                    File(camImage!.path),
                     width: double.infinity ,
                     fit: BoxFit.cover,
                 ),
@@ -98,7 +98,7 @@ class _TestPageState extends State<TestPage> {
               child: Container(
                   color: Colors.blueAccent,
                   child: Image.file(
-                    File(camImage!.path!),
+                    File(camImage!.path),
                     width: double.infinity ,
                     fit: BoxFit.cover,
                 ),

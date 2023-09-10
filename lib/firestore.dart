@@ -31,8 +31,8 @@ class _UserDataState extends State<UserData>{
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           storagePath = data['userImage'];
-          final imageRef = storageRef.child(storagePath);
-          const imageSize = 3 * 1024 * 1024;
+          //final imageRef = storageRef.child(storagePath);
+          //const imageSize = 3 * 1024 * 1024;
           final image = getURL(storagePath);
             return Column(
               mainAxisAlignment: MainAxisAlignment.center, 

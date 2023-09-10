@@ -46,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future saveFile() async {
     //method for saving the image to the directory
-    final path = '/userImages/${profilePicture!.name}'; //getting the path
+    //final path = '/userImages/${profilePicture!.name}'; //getting the path
     final file = File(profilePicture!.path);
     final ref = FirebaseStorage.instance.refFromURL("gs://suleymankiskacproject.appspot.com"); //accessing the image by its path
     final url = ref.getDownloadURL().toString();
