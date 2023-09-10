@@ -1,13 +1,8 @@
 
-import 'package:flutter/material.dart';
-
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'firestore.dart';
 
 
@@ -31,42 +26,32 @@ bool isVegan= false;
 bool isStudent = false;
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? profilePicture; // Image variable
+  XFile? profilePicture; // Image variable
   DateTime dateofbirth = DateTime.now(); // dateofbirth variable;
   DateTime? i;
   bool veganOrNot = false;
   bool studentOrNot = false;
   String dropdownValue = list.first; // dropdown Menu values
+
   Future getProfilePicture(ImageSource sourcepath) async {
     //get method for getting the profile picture
-    try {
-      final image = await ImagePicker()
-          .pickImage(source: sourcepath); //getting the path of the image
+      final image = await ImagePicker().pickImage(source: sourcepath); //getting the path of the image
       if (image == null) return;
 
-      final savedImage = await saveFilePermanently(
-          image.path); //saving the image to the local directory
       setState(() {
-        profilePicture = savedImage; // changing the profile picture
+        profilePicture = image; // changing the profile picture
       });
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print(
-            'faild to get image: $e'); // showing the error message if we catch an error
-      }
-    }
+      saveFile(); //saving the image to the local directory
   }
 
-  Future<File> saveFilePermanently(String imagePath) async {
+  Future saveFile() async {
     //method for saving the image to the directory
-    final directory =
-        await getApplicationDocumentsDirectory(); //getting the path
-    final name = basename(imagePath);
-    final image =
-        File('${directory.path}/$name'); //accessing the image by its path
-
-    return File(imagePath).copy(
-        image.path); // finding the image from its path and returning the it
+    final path = '/userImages/${profilePicture!.name}'; //getting the path
+    final file = File(profilePicture!.path);
+    final ref = FirebaseStorage.instance.refFromURL("gs://suleymankiskacproject.appspot.com"); //accessing the image by its path
+    final url = ref.getDownloadURL().toString();
+    ref.putFile(file);
+    updateUserImage(url);
   }
 
   @override
@@ -104,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     // making the profile picture circular
                     borderRadius: BorderRadius.circular(100),
                     child: Image.file(
-                      profilePicture!, // showing the picture that we get from gallery or camera
+                      File(profilePicture!.path), // showing the picture that we get from gallery or camera
                       width: 200, height: 200, fit: BoxFit.cover,
                     ),
                   ),

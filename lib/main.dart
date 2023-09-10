@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget { // using stateless widget for the base of 
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 48, 128, 51)),
         useMaterial3: true,
       ),
-      home: const MainPage(title: 'Main page'), //calling Main page 
+      home: const MainPage(title: "Suleyman's project"), //calling Main page 
     );
   }
 }
