@@ -24,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 
 bool isVegan= false;
 bool isStudent = false;
+Reference get firebaseRef => FirebaseStorage.instance.ref();
 
 class _ProfilePageState extends State<ProfilePage> {
   XFile? profilePicture; // Image variable
@@ -34,24 +35,23 @@ class _ProfilePageState extends State<ProfilePage> {
   String dropdownValue = list.first; // dropdown Menu values
 
   Future getProfilePicture(ImageSource sourcepath) async {
-    //get method for getting the profile picture
-      final image = await ImagePicker().pickImage(source: sourcepath); //getting the path of the image
+    
+      final image = await ImagePicker().pickImage(source: sourcepath);
       if (image == null) return;
 
       setState(() {
         profilePicture = image; // changing the profile picture
       });
+      
       saveFile(); //saving the image to the local directory
   }
 
   Future saveFile() async {
-    //method for saving the image to the directory
-    //final path = '/userImages/${profilePicture!.name}'; //getting the path
     final file = File(profilePicture!.path);
-    final ref = FirebaseStorage.instance.refFromURL("gs://suleymankiskacproject.appspot.com"); //accessing the image by its path
-    final url = ref.getDownloadURL().toString();
+    final ref = FirebaseStorage.instance.ref(); //accessing the image by its path
+    final url = ref.getDownloadURL();
     ref.putFile(file);
-    updateUserImage(url);
+    updateUserImage(url.toString());
   }
 
   @override

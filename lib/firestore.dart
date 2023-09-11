@@ -29,11 +29,15 @@ class _UserDataState extends State<UserData>{
 
         return ListView(
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
+
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           storagePath = data['userImage'];
-          //final imageRef = storageRef.child(storagePath);
-          //const imageSize = 3 * 1024 * 1024;
-          final image = getURL(storagePath);
+          String image ="";
+          getURL(storagePath).then((value) {
+            setState(() {
+              image = value;
+            });
+          });
             return Column(
               mainAxisAlignment: MainAxisAlignment.center, 
               children: [
@@ -60,13 +64,13 @@ class _UserDataState extends State<UserData>{
               ),
               const SizedBox(
                 width: double.infinity, height: 20,),
-              Row(
+              Row(//getting the name from the dataset
                 mainAxisAlignment: MainAxisAlignment.center, //getting the name from the dataset
                 children: [const Text('Name: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                   Text(data['userName'],style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,),
                     ),
                 ],
-              ),  //getting the name from the dataset
+              ),  
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [const Text('Surname: ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
@@ -116,8 +120,8 @@ class _UserDataState extends State<UserData>{
   }
 }
 
-String getURL(pathRef){
-  final imageURL = storageRef.child(pathRef).getDownloadURL().toString();
+Future<String> getURL(pathRef){
+  final imageURL = storageRef.child("userImages").child(pathRef).getDownloadURL();
   return imageURL;
 }
 
@@ -134,7 +138,7 @@ Future<void> updateUserName(String newName) {
     .doc("JY77sv8HTXTkHay7RCt2")// the document Id
     .update({'userName': newName}) //updating the new name
     .then((value) => print("Name Updated"))//printing to the log that it was updated
-    .catchError((error) => print("Failed to update name: $error"));//in case of error, printing the error message to the log
+    .catchError((error) => print("Failed to update name: $error"));//in case of error, error message on the log
 }
 
 Future<void> updateUserSurname(String newSurname) {

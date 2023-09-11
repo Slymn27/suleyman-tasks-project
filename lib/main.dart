@@ -3,7 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:suleymankiskacproject/firebase_options.dart';
-
+import 'imagetest.dart'; //TEMP FILE
 import 'mainpage.dart';
 
 Future<void> main() async {

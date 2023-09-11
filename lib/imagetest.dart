@@ -1,3 +1,5 @@
+// #### TEMPORARY FILE #### //
+
 
 import 'package:flutter/material.dart';
 
@@ -42,7 +44,7 @@ class _TestPageState extends State<TestPage> {
     final path = 'userImages/${camImage!.name}';
     final file = File(camImage!.path);
     final ref = FirebaseStorage.instance.ref().child(path);
-    //final imageRef = ref.getDownloadURL();
+    final imageRef = await ref.getDownloadURL();
     
     ref.putFile(file);
   }
@@ -54,7 +56,7 @@ class _TestPageState extends State<TestPage> {
 
     try{
       const bytes = 3 * 1024 * 1024;
-      final Uint8List? data = await imageRef.getData(bytes);
+      final data = await imageRef.getDownloadURL();
       return data;
     } on FirebaseException catch (e) {
       print(e);
@@ -74,11 +76,7 @@ class _TestPageState extends State<TestPage> {
             Expanded(
               child: Container(
                   color: Colors.blueAccent,
-                  child: Image.file(
-                    File(camImage!.path),
-                    width: double.infinity ,
-                    fit: BoxFit.cover,
-                ),
+                  child: Image.file(File(downloadFile().toString())),
               )
             ),
             const SizedBox(height: 32,),
@@ -97,11 +95,7 @@ class _TestPageState extends State<TestPage> {
             Expanded(
               child: Container(
                   color: Colors.blueAccent,
-                  child: Image.file(
-                    File(camImage!.path),
-                    width: double.infinity ,
-                    fit: BoxFit.cover,
-                ),
+                  child: Text("empty"),
               )
             ),
           ]
