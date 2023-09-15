@@ -70,17 +70,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              if (mediaUrl != null) // if a picture is selected, show it
+            Row(mainAxisAlignment: MainAxisAlignment.center, 
+              children: [
                 Stack(alignment: AlignmentDirectional.topEnd, children: [
                   ClipRRect(
                     // making the profile picture circular
-                    borderRadius: BorderRadius.circular(100),
-                    child: mediaUrl == null
-                    ? Image.network(mediaUrl!, // showing the picture that we get from the storage
-                      width: 200, height: 200, fit: BoxFit.cover,)
-                    : Image.network('https://img.freepik.com/free-icon/user_318-644324.jpg',
-                    width: 200, height: 200, fit: BoxFit.cover,)
+                    borderRadius: BorderRadius.circular(100),// showing the picture that we get from the storage
+                    child: mediaUrl != null
+                    ? Image.network(mediaUrl!, 
+                    width: 200, 
+                    height: 200, 
+                    fit: BoxFit.cover,)
+                    : Image.network('https://img.freepik.com/free-icon/user_318-644324.jpg', 
+                    width: 200, 
+                    height: 200, 
+                    fit: BoxFit.cover,)
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 150, right: 10),
@@ -101,20 +105,22 @@ class _ProfilePageState extends State<ProfilePage> {
                               title:
                                   const Text("Select a format to upload image"),
                               actions: [
-                                ElevatedButton(
-                                  child: const Text('Gallery'),
+                                Row(mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                  child: const Text('Gallery',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                                   onPressed: () =>uploadMedia(ImageSource.gallery),
                                 ),
                                 const SizedBox(
-                                  width: 10,
+                                  width: 20,
                                 ),
                                 ElevatedButton(
-                                  child: const Text('Camera'),
+                                  child: const Text('Camera',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                                   onPressed: () =>uploadMedia(ImageSource.camera),
                                 ),
-                                const SizedBox(
-                                  width: 60,
+                                  ],
                                 ),
+                                
                               ],
                             );
                           });
