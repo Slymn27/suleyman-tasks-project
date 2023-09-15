@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:suleymankiskacproject/firestore.dart';
+import 'package:suleymankiskacproject/firebase_systems/firestore.dart';
 import 'package:suleymankiskacproject/profilepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-class MainPage extends StatefulWidget {//turned the mainpage into a stateful widget because the main screen will show the user data
+class MainPage extends StatefulWidget {
+  //turned the mainpage into a stateful widget because the main screen will show the user data
   const MainPage({super.key, required this.title});
 
   final String title;
@@ -14,7 +13,8 @@ class MainPage extends StatefulWidget {//turned the mainpage into a stateful wid
   State<MainPage> createState() => _MainPageState();
 }
 
-FirebaseFirestore firestore = FirebaseFirestore.instance; //accesing the instance
+FirebaseFirestore firestore =
+    FirebaseFirestore.instance; //accesing the instance
 
 class _MainPageState extends State<MainPage> {
   @override
@@ -26,13 +26,17 @@ class _MainPageState extends State<MainPage> {
         title: const Placeholder(fallbackHeight: 40.0),
         actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 8, right: 15.0),
+            padding: const EdgeInsets.only(left: 8, right: 15.0),
             child: IconButton(
               iconSize: 42,
               onPressed: () {
-                Navigator.push(//navigating to profile page by clicking the person icon
-                  context, 
-                  MaterialPageRoute(builder: (context) => const ProfilePage(title: 'profile Page',)),
+                Navigator.push(
+                  //navigating to profile page by clicking the person icon
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfilePage(
+                            title: 'profile Page',
+                          )),
                 );
               },
               icon: const Icon(Icons.person_rounded),
@@ -41,15 +45,19 @@ class _MainPageState extends State<MainPage> {
           )
         ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class
       ),
-      body: UserData(),// calling the method from a differen file. Writing the user data that we got from firestore
+      body:
+          UserData(), // calling the method from a differen file. Writing the user data that we got from firestore
 
-      
-      bottomNavigationBar: BottomNavigationBar(//https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html bottom navigation bar
+      bottomNavigationBar: BottomNavigationBar(
+        //https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html bottom navigation bar
         backgroundColor: Color.fromARGB(255, 128, 218, 131),
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem( //creating a bottom navigation bar with 5 items
-            icon: Icon(Icons.sell_outlined,
-              size: 32, color: Color.fromARGB(255, 48, 128, 51),
+          BottomNavigationBarItem(
+            //creating a bottom navigation bar with 5 items
+            icon: Icon(
+              Icons.sell_outlined,
+              size: 32,
+              color: Color.fromARGB(255, 48, 128, 51),
             ),
             label: "Sale",
           ),
