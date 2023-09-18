@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:suleymankiskacproject/firebase_systems/firebase_options.dart';
 import 'mainpage.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     // we initialize a new instance to be able to use firebase apps
-    options: DefaultFirebaseOptions
-        .currentPlatform, // we set the options to default options
+    options: DefaultFirebaseOptions.currentPlatform, // we set the options to default options
   );
   runApp(const MyApp());
 }
