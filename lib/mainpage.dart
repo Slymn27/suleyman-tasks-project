@@ -1,7 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:suleymankiskacproject/firebase_systems/firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' // new added
+    hide EmailAuthProvider, PhoneAuthProvider;    // new added
+import 'package:flutter/material.dart';           
+import 'package:provider/provider.dart';          // new added
 import 'package:suleymankiskacproject/profilepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'firebase_systems/firestore.dart';
+import 'firebase_systems/app_state.dart';
+import 'firebase_systems/widgets.dart';
+import 'firebase_systems/authentication.dart';
+
 
 class MainPage extends StatefulWidget {
   //turned the mainpage into a stateful widget because the main screen will show the user data
@@ -45,9 +53,15 @@ class _MainPageState extends State<MainPage> {
           )
         ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class
       ),
-      body:
-          UserData(), // calling the method from a differen file. Writing the user data that we got from firestore
-
+      body:         
+      Consumer<ApplicationState>(
+            builder: (context, appState, _) => AuthFunc(
+                loggedIn: appState.loggedIn,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                }),
+          child:UserData(), // calling the method. Writing the user data that we got from database
+          ),
       bottomNavigationBar: BottomNavigationBar(
         //https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html bottom navigation bar
         backgroundColor: Color.fromARGB(255, 128, 218, 131),
