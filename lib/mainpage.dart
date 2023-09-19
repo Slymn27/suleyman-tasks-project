@@ -2,12 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart' // new added
     hide EmailAuthProvider, PhoneAuthProvider;    // new added
 import 'package:flutter/material.dart';           
 import 'package:provider/provider.dart';          // new added
-import 'package:suleymankiskacproject/profilepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'firebase_systems/firestore.dart';
+import 'profilepage.dart';
 import 'firebase_systems/app_state.dart';
-import 'firebase_systems/widgets.dart';
 import 'firebase_systems/authentication.dart';
 
 
@@ -60,7 +58,6 @@ class _MainPageState extends State<MainPage> {
                 signOut: () {
                   FirebaseAuth.instance.signOut();
                 }),
-          child:UserData(), // calling the method. Writing the user data that we got from database
           ),
       bottomNavigationBar: BottomNavigationBar(
         //https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html bottom navigation bar

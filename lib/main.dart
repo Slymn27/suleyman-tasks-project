@@ -2,12 +2,13 @@
 //used resources are mentioned at the bottom of the code
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:suleymankiskacproject/firebase_systems/firebase_options.dart';
 import 'mainpage.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new added
 import 'package:go_router/go_router.dart';               // new added
 import 'package:provider/provider.dart';                 // new added
-import 'package:suleymankiskacproject/firebase_systems/app_state.dart';
+
+import 'firebase_systems/firebase_options.dart';
+import 'firebase_systems/app_state.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

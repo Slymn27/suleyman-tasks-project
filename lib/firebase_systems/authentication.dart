@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'firestore.dart';
 
 import 'widgets.dart';
 
@@ -15,25 +16,19 @@ class AuthFunc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Row( mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 24, bottom: 8),
-          child: StyledButton(
-              onPressed: () {
-                !loggedIn ? context.push('/sign-in') : signOut();
-              },
-              child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
-        ),
         Visibility(
             visible: loggedIn,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 8),
-              child: StyledButton(
+            child: Column(
+              children: [
+                UserData(),
+                StyledButton(
                   onPressed: () {
-                    context.push('/profile');
+                    !loggedIn ? context.push('/sign-in') : signOut();
                   },
-                  child: const Text('Profile')),
+                child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
+              ],
             ))
       ],
     );
