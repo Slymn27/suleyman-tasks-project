@@ -56,7 +56,10 @@ class StyledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OutlinedButton(
         style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.deepPurple)),
+            side: const BorderSide(color: Colors.black),
+            backgroundColor: const Color.fromARGB(255, 128, 218, 131),
+            textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)
+            ),
         onPressed: onPressed,
         child: child,
       );

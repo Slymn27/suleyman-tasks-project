@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
+class Logstatus{
+  static bool? i;
+}
+
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
@@ -25,10 +29,15 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
+        Logstatus.i = true;
+        
       } else {
         _loggedIn = false;
+        Logstatus.i = false;
       }
+      
       notifyListeners();
     });
   }
 }
+
