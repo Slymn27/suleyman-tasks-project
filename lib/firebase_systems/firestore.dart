@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:suleymankiskacproject/firebase_systems/app_state.dart';
 
-CollectionReference collectionId =
+CollectionReference collectionRef =
     FirebaseFirestore.instance.collection("UserProfile");
+String id = UserInformation().userId;
+DocumentReference docRef = collectionRef.doc(id);
+
+final newUser = <String, String> {
+  "userName": "new user",
+  "userSurname": "new user",
+  "userNickname": "new user",
+};
+
+void userExists(){
+  docRef.set(newUser).onError((error, _) => print("error: $error"));
+}
 
 class UserData extends StatefulWidget {
   @override
@@ -10,11 +24,9 @@ class UserData extends StatefulWidget {
 }
 
 class _UserDataState extends State<UserData> {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('UserProfile').snapshots();
-
+  final Stream<QuerySnapshot> _usersStream = collectionRef.snapshots();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return StreamBuilder<QuerySnapshot>(
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -89,7 +101,8 @@ class _UserDataState extends State<UserData> {
                     ),
                   ],
                 ),
-                Row(//getting name and surname from database
+                Row(
+                  //getting name and surname from database
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
@@ -105,7 +118,7 @@ class _UserDataState extends State<UserData> {
                       ),
                     ),
                   ],
-                ), 
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -137,7 +150,7 @@ class _UserDataState extends State<UserData> {
                           fontSize: 22,
                         )),
                   ],
-                ), 
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -192,57 +205,69 @@ class _UserDataState extends State<UserData> {
   }
 }
 
+Future<DocumentReference> userId() {
+  return FirebaseFirestore.instance
+      .collection('UserProfile')
+      .add(<String, dynamic>{
+    'userId': FirebaseAuth.instance.currentUser!.uid,
+  });
+}
+
 Future<void> updateUserImage(String newImage) {
-  return collectionId
+  return collectionRef
       .doc("JY77sv8HTXTkHay7RCt2") // the document Id
       .update({'userImage': newImage}) //updating the new name
-      .then((value) => print("Profile Picture Updated")) //printing to the log that it was updated
-      .catchError((error) => print("Failed to update Profile Picture: $error")); //in case of error, printing the error message to the log
+      .then((value) => print(
+          "Profile Picture Updated")) //printing to the log that it was updated
+      .catchError((error) => print(
+          "Failed to update Profile Picture: $error")); //in case of error, printing the error message to the log
 }
 
 Future<void> updateUserName(String newName) {
-  return collectionId
+  return collectionRef
       .doc("JY77sv8HTXTkHay7RCt2") // the document Id
       .update({'userName': newName}) //updating the new name
-      .then((value) =>print("Name Updated")) //printing to the log that it was updated
-      .catchError((error) => print("Failed to update name: $error")); //in case of error, error message on the log
+      .then((value) =>
+          print("Name Updated")) //printing to the log that it was updated
+      .catchError((error) => print(
+          "Failed to update name: $error")); //in case of error, error message on the log
 }
 
 Future<void> updateUserSurname(String newSurname) {
-  return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+  return collectionRef
+      .doc("JY77sv8HTXTkHay7RCt4")
       .update({'userSurname': newSurname})
       .then((value) => print("surname Updated"))
       .catchError((error) => print("Failed to update surname: $error"));
 }
 
 Future<void> updateUserNickname(String newNickname) {
-  return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+  return collectionRef
+      .doc(id)
       .update({'userNickname': newNickname})
       .then((value) => print("Nickname Updated"))
       .catchError((error) => print("Failed to update nickname: $error"));
 }
 
 Future<void> updateUserGender(String newGender) {
-  return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+  return collectionRef
+      .doc(id)
       .update({'userGender': newGender})
       .then((value) => print("Gender Updated"))
       .catchError((error) => print("Failed to update gender: $error"));
 }
 
 Future<void> updateUserVegan(bool newVegan) {
-  return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+  return collectionRef
+      .doc(id)
       .update({'userVegan': newVegan})
       .then((value) => print("Vegan Status Updated"))
       .catchError((error) => print("Failed to update vegan status: $error"));
 }
 
 Future<void> updateUserStudent(bool newStudent) {
-  return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+  return collectionRef
+      .doc(id)
       .update({'userStudent': newStudent})
       .then((value) => print("Student Status Updated"))
       .catchError((error) => print("Failed to update student status: $error"));
@@ -251,8 +276,8 @@ Future<void> updateUserStudent(bool newStudent) {
 Future<void> updateUserDOB(String newDOB) {
   List<String> splitted =
       newDOB.split(' '); //we split the time part and only use the date portion
-  return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+  return collectionRef
+      .doc(id)
       .update({
         'userDOB': splitted[0]
       }) //index 0 is the date part, index 1 is the time part, we select index 0 to print

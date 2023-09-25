@@ -6,17 +6,20 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
-class Logstatus{
-  static bool? i;
+final FirebaseAuth authId = FirebaseAuth.instance;
+final User? user = authId.currentUser;
+
+class UserInformation{
+  String userId = user!.uid;
 }
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
-
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
+
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -29,15 +32,14 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
-        Logstatus.i = true;
         
       } else {
         _loggedIn = false;
-        Logstatus.i = false;
       }
       
       notifyListeners();
     });
   }
+
 }
 

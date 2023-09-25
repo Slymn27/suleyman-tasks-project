@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
-import 'firebase_systems/firestore.dart';
+import 'firebase_systems/temp_firestore.dart'; //change
 import 'firebase_systems/firebase_connection.dart';
+
 
 const List<String> list = <String>[
   'Prefere not to say',

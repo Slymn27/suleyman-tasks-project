@@ -13,7 +13,4 @@ class Service{
     return downloadUrl;
   }
 
-  Future<void> deleteMedia(String imagePath)async{
-    await _firebaseStorage.ref().child(imagePath).delete();
-  }
 }

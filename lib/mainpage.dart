@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'profilepage.dart';
 import 'firebase_systems/app_state.dart';
 import 'firebase_systems/authentication.dart';
+import 'firebase_systems/temp_firestore.dart'; //changed
 
 class MainPage extends StatefulWidget {
   //turned the mainpage into a stateful widget because the main screen will show the user data
@@ -19,9 +20,8 @@ class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
 }
-  bool? islogged = Logstatus.i; 
 
-  FirebaseFirestore firestore =
+FirebaseFirestore firestore =
     FirebaseFirestore.instance; //accesing the instance
 
 class _MainPageState extends State<MainPage> {
@@ -34,25 +34,36 @@ class _MainPageState extends State<MainPage> {
         title: const Placeholder(fallbackHeight: 40.0),
         actions: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(left: 8, right: 15.0),
-              child: islogged ==true
-              ?IconButton(
-                iconSize: 42,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfilePage(
-                              //navigating to profile page by clicking the person icon
-                              title: 'profile Page',
-                            )),
-                  );
-                },
-                icon: const Icon(Icons.person_rounded),
-                color: Color.fromARGB(255, 48, 128, 51),
-              )
-            :SizedBox(width: 42, height: 42,)
-            )
+            padding: const EdgeInsets.only(left: 8.0 ,right: 15.0),
+            child: Consumer<ApplicationState>(
+              builder: (context, appState, _) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  appState.loggedIn
+                      ? IconButton(
+                          iconSize: 40,
+                          onPressed: () {
+                            userExists();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ProfilePage(
+                                        //navigating to profile page by clicking the person icon
+                                        title: 'profile Page',
+                                      )),
+                            );
+                        },
+                          icon: const Icon(Icons.person_rounded),
+                          color: Color.fromARGB(255, 48, 128, 51),
+                        )
+                      : const SizedBox(
+                          width: 56,
+                          height: 56,
+                        )
+                ],
+              ),
+            ),
+          )
         ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class
       ),
       body: Column(
@@ -103,4 +114,6 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+
 }

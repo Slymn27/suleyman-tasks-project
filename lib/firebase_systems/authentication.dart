@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'temp_firestore.dart'; //change this
 import 'widgets.dart';
 
 // Copyright 2022 The Flutter Authors. All rights reserved.
@@ -8,7 +9,6 @@ import 'widgets.dart';
 // found in the LICENSE file.
 
 class AuthFunc extends StatelessWidget {
-  
   const AuthFunc({
     super.key,
     required this.loggedIn,
@@ -20,19 +20,31 @@ class AuthFunc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center( 
-      child: Column(
+    return Center(
+        child: loggedIn 
+        ? Column(
       children: [
-        loggedIn ? UserData() : const Text("You are Signed out", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: StyledButton(
-              onPressed: () { 
-                !loggedIn ? context.push('/sign-in') : signOut();
-              },
-              child: !loggedIn ? const Text('Login') : const Text('Logout')),
-        ),
+        UserData(),
+        StyledButton(
+            onPressed: () {
+              signOut();
+              FirebaseAuth.instance.signOut().then((value) => print("logged out"));
+            },
+            child: const Text('Logout')),
       ],
-    ));
+    )
+    :Column(
+      children: [
+          const Text("You are Signed out",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        StyledButton(
+          onPressed: () {
+            context.push('/sign-in');
+          },
+          child: const Text('Login')),
+      ],
+    )
+    );
   }
 }
