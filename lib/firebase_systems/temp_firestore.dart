@@ -62,10 +62,7 @@ class _UserDataState extends State<UserData> {
                 document.data()! as Map<String, dynamic>;
             return Column(
               children: [
-                Text("data"),
-                Text("data"),
-                Text("data"),
-                Text("data"),
+                Text(data["userName"]),
                 ],
             );
           }).toList(), //converting to list format
@@ -95,7 +92,7 @@ Future<void> updateUserImage(String newImage) {
 
 Future<void> updateUserName(String newName) {
   return collectionRef
-      .doc("JY77sv8HTXTkHay7RCt2") // the document Id
+      .doc(id) // the document Id
       .update({'userName': newName}) //updating the new name
       .then((value) =>
           print("Name Updated")) //printing to the log that it was updated
@@ -105,7 +102,7 @@ Future<void> updateUserName(String newName) {
 
 Future<void> updateUserSurname(String newSurname) {
   return collectionRef
-      .doc("JY77sv8HTXTkHay7RCt4")
+      .doc(id)
       .update({'userSurname': newSurname})
       .then((value) => print("surname Updated"))
       .catchError((error) => print("Failed to update surname: $error"));
