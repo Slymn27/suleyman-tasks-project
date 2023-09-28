@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     profilePicture = await ImagePicker().pickImage(source: source);
     if (profilePicture == null) return;
     mediaUrl =
-        await _service.uploadMedia(File(profilePicture!.path), "UserUniqueID");
+        await _service.uploadMedia(File(profilePicture!.path), id);
     updateUserImage(mediaUrl.toString());
     setState(() {});
   }

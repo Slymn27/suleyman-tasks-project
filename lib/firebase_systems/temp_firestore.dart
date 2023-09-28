@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:suleymankiskacproject/firebase_systems/app_state.dart';
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+final User? curUser = auth.currentUser;
+
 CollectionReference collectionRef =
     FirebaseFirestore.instance.collection("UserProfile");
-String id = UserInformation().userId;
-DocumentReference docRef = collectionRef.doc(id);
+var id = UserInformation().userId; // to get the user ID
+
+DocumentReference docRef = collectionRef.doc(curUser!.uid);
 
 final newUser = <String, dynamic> {
   "userName": "new user",
@@ -16,6 +22,8 @@ final newUser = <String, dynamic> {
   "userGender": "Prefere not to say",
   "userStudent": false,
   "userVegan": false,
+  "userImage": null,
+  "userId" : id,
 };
 
 void userExists(){
@@ -36,7 +44,10 @@ class UserData extends StatefulWidget {
 }
 
 class _UserDataState extends State<UserData> {
+
   final Stream<QuerySnapshot> _usersStream = collectionRef.snapshots();
+  final mySnapshot = FirebaseFirestore.instance.collection("UserProfile").doc(id).get().then((value) => print("done"));
+  
   @override
   Widget build(BuildContext context) { 
     return StreamBuilder<QuerySnapshot>(
@@ -54,15 +65,41 @@ class _UserDataState extends State<UserData> {
                   fontSize:
                       22)); //while waiting for the data, printing 'loading' message
         }
-
-        return ListView(
+       return ListView(
           shrinkWrap: true,
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            Map<String, dynamic> data =
-                document.data()! as Map<String, dynamic>;
+            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;//get data from database
             return Column(
               children: [
-                Text(data["userName"]),
+                data["userImage"] == null 
+                ? Image.network(// If user has no profile picture, show empty user image
+                'https://img.freepik.com/free-icon/user_318-644324.jpg',
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+                  )
+                : Image.network(
+                data["userImage"],
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+                  ),
+                  data["userNickname"] != null
+                ? Text(data["userNickname"])
+                : const Text("empty"),
+                data["userSurname"] != null
+                ? Text(data["userSurname"])
+                : const Text("empty"),
+                data["userName"] != null
+                ? Text(data["userName"])
+                : const Text("empty"),
+                Text(data["userGender"]),
+                data["userVegan"]
+                ? const Text("Vegan")
+                : const Text("Not Vegan"),
+                data["userStudent"]
+                ? const Text("Student")
+                : const Text("Not Student"),
                 ],
             );
           }).toList(), //converting to list format
@@ -72,17 +109,18 @@ class _UserDataState extends State<UserData> {
   }
 }
 
-Future<DocumentReference> userId() {
-  return FirebaseFirestore.instance
-      .collection('UserProfile')
-      .add(<String, dynamic>{
-    'userId': FirebaseAuth.instance.currentUser!.uid,
-  });
+Future<Widget> readName () async{ // ###testing if I can get the data from database ###
+  final mySnapshot = await FirebaseFirestore.instance.collection("UserProfile").doc(id).get();
+  if(mySnapshot.exists){
+    final docData = mySnapshot.data();
+    return Text(docData!['userName']);
+  } 
+  return Text("N/A");
 }
 
 Future<void> updateUserImage(String newImage) {
   return collectionRef
-      .doc("JY77sv8HTXTkHay7RCt2") // the document Id
+      .doc(id) // the document Id
       .update({'userImage': newImage}) //updating the new name
       .then((value) => print(
           "Profile Picture Updated")) //printing to the log that it was updated
