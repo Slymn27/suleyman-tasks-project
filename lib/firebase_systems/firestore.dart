@@ -193,7 +193,7 @@ class _UserDataState extends State<UserData> {
 
 Future<void> updateUserImage(String newImage) {
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2") // the document Id
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2") // the document Id
       .update({'userImage': newImage}) //updating the new name
       .then((value) => print("Profile Picture Updated")) //printing to the log that it was updated
       .catchError((error) => print("Failed to update Profile Picture: $error")); //in case of error, printing the error message to the log
@@ -201,7 +201,7 @@ Future<void> updateUserImage(String newImage) {
 
 Future<void> updateUserName(String newName) {
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2") // the document Id
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2") // the document Id
       .update({'userName': newName}) //updating the new name
       .then((value) =>print("Name Updated")) //printing to the log that it was updated
       .catchError((error) => print("Failed to update name: $error")); //in case of error, error message on the log
@@ -209,7 +209,7 @@ Future<void> updateUserName(String newName) {
 
 Future<void> updateUserSurname(String newSurname) {
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2")
       .update({'userSurname': newSurname})
       .then((value) => print("surname Updated"))
       .catchError((error) => print("Failed to update surname: $error"));
@@ -217,7 +217,7 @@ Future<void> updateUserSurname(String newSurname) {
 
 Future<void> updateUserNickname(String newNickname) {
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2")
       .update({'userNickname': newNickname})
       .then((value) => print("Nickname Updated"))
       .catchError((error) => print("Failed to update nickname: $error"));
@@ -233,7 +233,7 @@ Future<void> updateUserGender(String newGender) {
 
 Future<void> updateUserVegan(bool newVegan) {
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2")
       .update({'userVegan': newVegan})
       .then((value) => print("Vegan Status Updated"))
       .catchError((error) => print("Failed to update vegan status: $error"));
@@ -241,7 +241,7 @@ Future<void> updateUserVegan(bool newVegan) {
 
 Future<void> updateUserStudent(bool newStudent) {
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2")
       .update({'userStudent': newStudent})
       .then((value) => print("Student Status Updated"))
       .catchError((error) => print("Failed to update student status: $error"));
@@ -251,7 +251,7 @@ Future<void> updateUserDOB(String newDOB) {
   List<String> splitted =
       newDOB.split(' '); //we split the time part and only use the date portion
   return collectionId
-      .doc("JY77sv8HTXTkHay7RCt2")
+      .doc("A5iA3AB0JLYr3Tna7ebm8KvlGUJ2")
       .update({
         'userDOB': splitted[0]
       }) //index 0 is the date part, index 1 is the time part, we select index 0 to print

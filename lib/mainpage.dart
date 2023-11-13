@@ -17,13 +17,40 @@ FirebaseFirestore firestore =
     FirebaseFirestore.instance; //accesing the instance
 
 class _MainPageState extends State<MainPage> {
+  int bottomNavIndex = 2;
+  final screens = [
+    const Center(child: Column(
+       children: [
+         Text("Sales", style:  TextStyle(fontSize: 36),),
+         Text("Comming soon...", style:  TextStyle(fontSize: 24),)
+       ],
+     )),
+    const Center(child: Column(
+       children: [
+         Text("Orders", style:  TextStyle(fontSize: 36),),
+         Text("Comming soon...", style:  TextStyle(fontSize: 24),)
+       ],
+     )),
+    UserData(),
+    const Center(child: Column(
+       children: [
+         Text("Contacts", style:  TextStyle(fontSize: 36),),
+         Text("Comming soon...", style:  TextStyle(fontSize: 24),)
+       ],
+     )),
+    const Center(child: Column(
+       children: [
+         Text("Stock", style:  TextStyle(fontSize: 36),),
+         Text("Comming soon...", style:  TextStyle(fontSize: 24),)
+       ],
+     )),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 128, 218, 131),
-        leading: const Placeholder(),
-        title: const Placeholder(fallbackHeight: 40.0),
+        title: Text("CepDükkan",style: TextStyle(color: Colors.green.shade900,fontWeight: FontWeight.bold,fontSize: 44),),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: 8, right: 15.0),
@@ -45,11 +72,13 @@ class _MainPageState extends State<MainPage> {
           )
         ], //https://api.flutter.dev/flutter/material/AppBar-class.html AppBar class
       ),
-      body:
-          UserData(), // calling the method from a differen file. Writing the user data that we got from firestore
+      body:screens[bottomNavIndex], // calling the method from a differen file. Writing the user data that we got from firestore
 
       bottomNavigationBar: BottomNavigationBar(
         //https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html bottom navigation bar
+        currentIndex: bottomNavIndex,
+        onTap: (index) => setState (() => bottomNavIndex = index),
+        selectedItemColor: Color.fromARGB(255, 19, 71, 21),
         backgroundColor: Color.fromARGB(255, 128, 218, 131),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -59,7 +88,7 @@ class _MainPageState extends State<MainPage> {
               size: 32,
               color: Color.fromARGB(255, 48, 128, 51),
             ),
-            label: "Sale",
+            label: "Sales",
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_basket_outlined,
@@ -73,14 +102,13 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.search_rounded,
                   size: 32, color: Color.fromARGB(255, 48, 128, 51)),
-              label: "Search"),
+              label: "Contacts"),
           BottomNavigationBarItem(
               icon: Icon(Icons.store_mall_directory_outlined,
                   size: 32, color: Color.fromARGB(255, 48, 128, 51)),
-              label: "Vendors"),
+              label: "Stock"),
         ],
-        selectedItemColor: Color.fromARGB(255, 19, 71, 21),
-        currentIndex: 2,
+        
       ),
     );
   }
